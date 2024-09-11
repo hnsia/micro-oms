@@ -6,6 +6,8 @@ import (
 
 	"github.com/hnsia/micro-oms/common"
 	"github.com/hnsia/micro-oms/common/api"
+	"google.golang.org/grpc/codes"
+	"google.golang.org/grpc/status"
 )
 
 type handler struct {
@@ -38,7 +40,12 @@ func (h *handler) HandleCreateOrder(w http.ResponseWriter, r *http.Request) {
 		CustomerID: customerID,
 		Items:      items,
 	})
-	if err != nil {
+	rStatus := status.Convert(err)
+	if rStatus != nil {
+		if rStatus.Code() != codes.InvalidArgument {
+			common.WriteError(w, http.StatusBadRequest, rStatus.Message())
+			return
+		}
 		common.WriteError(w, http.StatusInternalServerError, err.Error())
 		return
 	}
