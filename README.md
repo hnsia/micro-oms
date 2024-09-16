@@ -1,5 +1,9 @@
 # Introduction
 
+This service is a GO-lang written order management system (OMS), or more widely known as a Point of Sales service system, that is structured with a microservice architecture, with service to service calls using GRPC.
+
+# Setup instructions
+
 # Tools
 
 - Go 1.22+
